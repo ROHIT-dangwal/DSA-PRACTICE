@@ -18,7 +18,6 @@ class LinkedList
 {
 public:
 	Node *head;
-	Node *tail;
 
 	LinkedList()
 	{
