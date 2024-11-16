@@ -3,13 +3,13 @@ using namespace std;
 class Node
 {
 public:
-    int employeeid;
+    int rollno;
     string name;
     Node *next;
     Node *pre;
-    Node(int employeeid, string name)
+    Node(int rollno, string name)
     {
-        this->employeeid = employeeid;
+        this->rollno = rollno;
         this->name = name;
         this->next = NULL;
         this->pre = NULL;
@@ -24,22 +24,25 @@ public:
     {
         head = NULL;
     }
-    void addNode(int employeeid, string name)
+    void addNode(int rollno, string name)
     {
-        Node *newNode = new Node(employeeid, name);
+        Node *newNode = new Node(rollno, name);
 
         if (head == NULL)
         {
             head = newNode;
-            head->pre = NULL;
-            head->next = NULL;
+            head->next = head;
+            head->pre = head;
             return;
         }
         else
         {
+            Node *last = head->pre;
+            last->next = newNode;
             newNode->next = head;
+            newNode->pre = last;
             head->pre = newNode;
-            head = newNode;
+
             return;
         }
     }
@@ -51,29 +54,29 @@ public:
         {
             return;
         }
-        if (head->next == NULL)
+        if (head->next == head)
         {
             delete head;
             head = NULL;
+            return;
         }
-        while (temp->next != NULL)
-        {
-            temp = temp->next;
-        }
-        temp->pre->next = NULL;
-        delete temp;
+        Node *last = head->pre;
+        last->pre->next = head;
+        head->pre = last->pre;
+        delete last;
+
         return;
     }
     void display()
     {
         Node *temp = head;
-        while (temp != NULL)
+        do
         {
-            cout << "employeeid -> " << temp->employeeid << endl;
+            cout << "employeeid -> " << temp->rollno << endl;
             cout << "Name -> " << temp->name << endl;
 
             temp = temp->next;
-        }
+        } while (temp != head);
         return;
     }
 };
